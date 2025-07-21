@@ -1,9 +1,10 @@
 <template>
-  <div class="barber-form-container">
-    <div class="animated-container">
+      <div class="animated-container">
       <router-link to="/feedbacks"><i class="bi bi-arrow-left"></i> Back</router-link>
       <router-link to="/"><i class="bi bi-house-fill"></i> Home</router-link>
     </div>
+  <div class="barber-form-container">
+
 
     <h2 class="barber-title">Add Feedback</h2>
 
@@ -11,9 +12,9 @@
       <div class="barber-row">
 
         <div class="barber-form-group">
-          <label>Appointment <span class="barber-required">*</span></label>
+          <label>Completed  <span class="barber-required">*</span></label>
           <select v-model="form.appointment_id" @change="autoFillBarberCustomer" required>
-            <option disabled value="">-- Select Appointment --</option>
+            <option disabled value="">-- Select  --</option>
             <option v-for="appt in appointments" :key="appt.id" :value="appt.id">
               {{ appt.id }} - {{ appt.customer.name}} {{ appt.appointment_time }}
             </option>
@@ -71,8 +72,7 @@ export default {
 
     const res = await fetch("http://didar.intelsofts.com/Laravel_Vue/B_Backend/public/api/appointments");
     const data = await res.json();
-    this.appointments = data.data; // ✅ Correct: get only the appointment array
- 
+    this.appointments = data.data.filter(appt => appt.status === 'completed'); // ✅ Correct: get only the appointment array
 },
     async autoFillBarberCustomer() {
   const selected = this.appointments.find(appt => appt.id === this.form.appointment_id);
